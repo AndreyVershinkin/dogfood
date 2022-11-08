@@ -1,12 +1,12 @@
 import Card from '../Card/card';
 import './index.css';
-import data from '../../assets/data.json'
 
-const CardList = () => {
+
+const CardList = ({ goods }) => {
 	return (
 		<div className='cards'>
 			{
-				data.map(i => <Card {...i} />)
+				goods.map(i => <Card {...i} />)
 			}
 		</div>
 	);

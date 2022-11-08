@@ -1,8 +1,10 @@
 import "./index.css";
 
-const SeachInfo = () => {
+const SeachInfo = ({ searchText, searchCount }) => {
 	return (
-		null
+		searchText && <section className="search-title">
+			По запросу <span>{searchText}</span> найдено {searchCount} товаров
+		</section>
 	);
 };
 
