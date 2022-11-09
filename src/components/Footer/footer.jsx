@@ -66,7 +66,6 @@ const Footer = () => {
 										<img src={telegram} alt="telegram" className="socials__icon" />
 									</a>
 								</li>
-
 								<li className="socials__item">
 									<a className="socials__link" href="/#">
 										<img src={whatsapp} alt="whatsapp" className="socials__icon" />
@@ -89,7 +88,6 @@ const Footer = () => {
 								</li>
 							</ul>
 						</div>
-
 					</div>
 				</div>
 			</div>
