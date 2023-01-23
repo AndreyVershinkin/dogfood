@@ -1,20 +1,18 @@
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import CardList from "../../components/CardList/card-list"
 import { ContentHeader } from "../../components/ContentHeader/content-header";
 import Sort from "../../components/Sort/sort"
-import Spinner from "../../components/Spinner"
-import { CardContext } from "../../context/cardContext";
 
 
 export const FavoritePage = () => {
-    const { favorites } = useContext(CardContext);
-    return (
-        <div className="container container_inner">
-            <ContentHeader title="Избранное" />
-            <Sort />
-            <div className='content__cards'>
-                <CardList cards={favorites} />
-            </div>
-        </div>
-    )
+   const favorites = useSelector(state => state.products.favoriteProducts)
+   return (
+      <div className="container container_inner">
+         <ContentHeader title="Избранное" />
+         <Sort />
+         <div className='content__cards'>
+            <CardList cards={favorites} />
+         </div>
+      </div>
+   )
 }

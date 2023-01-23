@@ -3,46 +3,43 @@ import s from './index.module.css'
 import { useEffect, useState, useCallback } from "react";
 import { ReactComponent as StarIcon } from "./star.svg";
 
-
 export const Rating = ({ isEditable = false, rating, setRating = null }) => {
-    const [ratingArray, setRatingArray] = useState(new Array(5).fill(<></>));
+   const [ratingArray, setRatingArray] = useState(new Array(5).fill(<></>));
+   const constructRating = useCallback((currentRating) => {
+      const updateArray = ratingArray.map((ratingElement, index) => {
+         return (
+            <StarIcon
+               className={cn(s.star, {
+                  [s.filled]: index < currentRating,
+                  [s.editable]: isEditable
+               })}
+               onMouseEnter={() => changeDisplay(index + 1)}
+               onMouseLeave={() => changeDisplay(rating)}
+               onClick={() => changeRating(index + 1)}
+            />
+         )
+      })
+      setRatingArray(updateArray)
+   }, [rating, isEditable])
 
-    const constructRating = useCallback((currentRating) => {
-        const updateArray = ratingArray.map((ratingElement, index) => {
-            return (
-                <StarIcon
-                    className={cn(s.star, {
-                        [s.filled]: index < currentRating,
-                        [s.editable]: isEditable
-                    })}
-                    onMouseEnter={() => changeDisplay(index + 1)}
-                    onMouseLeave={() => changeDisplay(rating)}
-                    onClick={() => changeRating(index + 1)}
+   const changeDisplay = (rating) => {
+      if (!isEditable) return
+      constructRating(rating)
+   }
 
-                />
-            )
-        })
-        setRatingArray(updateArray)
-    }, [rating, isEditable])
+   const changeRating = (rating) => {
+      if (!isEditable || !setRating) return
 
-    const changeDisplay = (rating) => {
-        if (!isEditable) return
-        constructRating(rating)
-    }
+      setRating(rating)
+   }
 
-    const changeRating = (rating) => {
-        if (!isEditable || !setRating) return
+   useEffect(() => {
+      constructRating(rating)
+   }, [rating, constructRating])
 
-        setRating(rating)
-    }
-
-    useEffect(() => {
-        constructRating(rating)
-    }, [rating, constructRating])
-
-    return (
-        <div>
-            {ratingArray.map((r, i) => <span key={i}>{r}</span>)}
-        </div>
-    )
+   return (
+      <div>
+         {ratingArray.map((r, i) => <span key={i}>{r}</span>)}
+      </div>
+   )
 }
