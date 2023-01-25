@@ -6,10 +6,13 @@ import { ReactComponent as CartIcon } from './img/cart.svg';
 import { ReactComponent as ProfileIcon } from './img/profile.svg';
 import { ReactComponent as UserIcon } from './img/user.svg';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../storage/user/userSlice';
 
-function Header({ children, user, onUpdateUser }) {
-   const favorites = useSelector(state => state.products.favoriteProducts)
+function Header({ children }) {
+   const favorites = useSelector(state => state.products.favoriteProducts);
+   const user = useSelector(state => state.user.data);
+   const dispatch = useDispatch();
    const location = useLocation();
    return (
       <header className={cn(s.header, 'cover')}>
@@ -25,18 +28,23 @@ function Header({ children, user, onUpdateUser }) {
                      <CartIcon />
                      {favorites.length !== 0 && <span className={s.iconBubble}>{favorites.length}</span>}
                   </Link>
-                  <Link to='/login' state={{ backgroundLocation: location, initialPath: location.pathname }} className={s.iconsMenuItem} >
+                  {!user && <Link to='/login' state={{ backgroundLocation: location, initialPath: location.pathname }} className={s.iconsMenuItem} >
                      <UserIcon />
                      Войти
                   </Link>
-                  <Link to='/profile' className={s.iconsMenuItem}>
-                     <ProfileIcon />
-                     Андрей
-                  </Link>
-                  <Link to='/' className={s.iconsMenuItem}>
-                     <LogoutIcon />
-                     Выйти
-                  </Link>
+                  }
+                  {user &&
+                     <>
+                        <Link to='/profile' className={s.iconsMenuItem}>
+                           <ProfileIcon />
+                           {user.name}
+                        </Link>
+                        <Link to='/' className={s.iconsMenuItem} onClick={() => dispatch(logout())} >
+                           <LogoutIcon />
+                           Выйти
+                        </Link>
+                     </>
+                  }
                </div>
             </div>
          </div>

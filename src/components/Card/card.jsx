@@ -11,7 +11,7 @@ import { fetchChangeLikeProduct } from '../../storage/products/productsSlice';
 const Card = ({ name, price, _id, likes, discount, wight, description, pictures, tags }) => {
    const dispatch = useDispatch();
    const currentUser = useSelector(state => state.user.data);
-   const isLoading = useSelector(state => state.user.loading);
+   const isLoading = useSelector(state => state.user.getUserRequest);
 
    const handleLikeClick = useCallback(() => {
       return dispatch(fetchChangeLikeProduct({ _id, likes }))

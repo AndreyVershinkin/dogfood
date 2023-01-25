@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, version } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import Footer from '../Footer/footer';
 import Header from '../Header/header';
 import Logo from '../Logo/logo';
@@ -21,6 +22,8 @@ import { HomePage } from '../../pages/HomePage/home-page';
 import { useDispatch } from 'react-redux';
 import { fetchProducts } from '../../storage/products/productsSlice';
 import { fetchUser } from '../../storage/user/userSlice';
+import { ProtectedRoute } from '../ProtectedRoute/protected-route';
+import { userTokenChek } from '../../storage/user/userSlice'
 
 function App() {
    const [cards, setCards] = useState([]);
@@ -28,8 +31,8 @@ function App() {
    const [isLoading, setIsLoading] = useState(true);
    const debounceSearchQuery = useDebounce(searchQuery, 300);
    const dispatch = useDispatch();
-   const location = useLocation()
-
+   const location = useLocation();
+   // const loggedIn = useSelector(state => state.user.loggedIn)
    const backgroundLocation = location.state?.backgroundLocation;
    const initialPath = location.state?.initialPath;
 
@@ -46,12 +49,17 @@ function App() {
          })
    }, [searchQuery])
 
+   const token = JSON.parse(localStorage.getItem('token'));
    useEffect(() => {
-      const userData = dispatch(fetchUser());
-      userData.then(() => {
-         dispatch(fetchProducts());
-      })
-   }, [dispatch])
+
+      const userData = dispatch(userTokenChek(token));
+      if (token) {
+         userData.then(() => {
+            dispatch(fetchProducts());
+         })
+      }
+
+   }, [dispatch, token])
 
    useEffect(() => {
       handleRequest()
@@ -92,7 +100,9 @@ function App() {
                   <HomePage />
                } />
                <Route path='/catalog' element={
-                  <CatalogPage />
+                  <ProtectedRoute>
+                     <CatalogPage />
+                  </ProtectedRoute>
                } />
                <Route path='/product/:productId' element={
                   <ProductPage
@@ -101,16 +111,24 @@ function App() {
                } />
                <Route path='/faq' element={<FaqPage />} />
                <Route path='/favorites' element={
-                  <FavoritePage />
+                  <ProtectedRoute>
+                     <FavoritePage />
+                  </ProtectedRoute>
                } />
                <Route path='/login' element={
-                  <Login />
+                  <ProtectedRoute onlyUnAuth>
+                     <Login />
+                  </ProtectedRoute>
                } />
                <Route path='/register' element={
-                  <Register />
+                  <ProtectedRoute onlyUnAuth>
+                     <Register />
+                  </ProtectedRoute>
                } />
                <Route path='/reset-password' element={
-                  <ResetPassword />
+                  <ProtectedRoute onlyUnAuth>
+                     <ResetPassword />
+                  </ProtectedRoute>
                } />
                <Route path='*' element={<NotFoundPage />} />
             </Routes>
@@ -119,20 +137,25 @@ function App() {
             {backgroundLocation && (
                <Routes>
                   <Route path='/login' element={
-                     <Modal>
-                        <Login />
-                     </Modal>
+                     <ProtectedRoute onlyUnAuth>
+                        <Modal>
+                           <Login />
+                        </Modal>
+                     </ProtectedRoute>
                   } />
-
                   <Route path='/register' element={
-                     <Modal>
-                        <Register />
-                     </Modal>
+                     <ProtectedRoute onlyUnAuth>
+                        <Modal>
+                           <Register />
+                        </Modal>
+                     </ProtectedRoute>
                   } />
                   <Route path='/reset-password' element={
-                     <Modal>
-                        <ResetPassword />
-                     </Modal>
+                     <ProtectedRoute onlyUnAuth>
+                        <Modal>
+                           <ResetPassword />
+                        </Modal>
+                     </ProtectedRoute>
                   } />
                </Routes>
             )}

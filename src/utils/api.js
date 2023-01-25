@@ -1,5 +1,6 @@
 const onResponce = (res) => {
-   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+   // return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+   return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
 }
 
 class Api {
@@ -52,6 +53,30 @@ class Api {
       return fetch(`${this._baseUrl}/products/likes/${productId}`, {
          method: isLike ? "DELETE" : "PUT",
          headers: this._headers
+      }).then(onResponce)
+   }
+
+   register(bodyData) {
+      return fetch(`${this._baseUrl}/signup`, {
+         method: 'POST',
+         headers: this._headers,
+         body: JSON.stringify(bodyData)
+      }).then(onResponce)
+   }
+
+   authorize(bodyData) {
+      return fetch(`${this._baseUrl}/signin`, {
+         method: 'POST',
+         headers: this._headers,
+         body: JSON.stringify(bodyData)
+      }).then(onResponce)
+   }
+
+   checkToken(token) {
+      return fetch(`${this._baseUrl}/users/me`, {
+         headers: {
+            ...this._headers, Authorization: `Bearer ${token}`
+         },
       }).then(onResponce)
    }
 }
