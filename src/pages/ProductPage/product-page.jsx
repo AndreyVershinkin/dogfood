@@ -29,7 +29,7 @@ export const ProductPage = () => {
          <div className='content__cards'>
             {isLoading
                ? <Spinner />
-               : !errorState && <Product {...product} onProductLike={handleProductLike} />
+               : !errorState && <Product {...product} allData={product} onProductLike={handleProductLike} />
             }
             {!isLoading && errorState && <NotFound />}
          </div>

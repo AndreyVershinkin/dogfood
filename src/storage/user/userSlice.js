@@ -27,7 +27,7 @@ export const userAuthenticate = createAsyncThunk(
       try {
          const data = await api.authorize(dataAuth);
          if (data.token) {
-            localStorage.setItem('jwt', data.token)
+            localStorage.setItem('token', JSON.stringify(data.token))
          } else {
             return rejectWithValue(data);
          }
@@ -64,7 +64,6 @@ export const userTokenChek = createAsyncThunk(
       try {
          const data = await api.checkToken(token);
          dispatch(authCheck())
-         dispatch(loggedIn())
          return fulfillWithValue(data);
       } catch (error) {
          localStorage.clear();
@@ -92,9 +91,6 @@ const userSlice = createSlice({
    reducers: {
       authCheck: (state) => {
          state.isAuthChecked = true
-      },
-      loggedIn: (state) => {
-         state.loggedIn = true
       },
       logout: (state) => {
          state.data = null;
@@ -145,6 +141,6 @@ const userSlice = createSlice({
    },
 });
 
-export const { authCheck, logout, loggedIn } = userSlice.actions;
+export const { authCheck, logout } = userSlice.actions;
 
 export default userSlice.reducer;

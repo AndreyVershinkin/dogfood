@@ -8,11 +8,14 @@ import { useMemo } from 'react';
 import { ContentHeader } from '../ContentHeader/content-header';
 import { Rating } from '../Rating/rating';
 import { FormReview } from '../FormReview/form-review';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ButtonCount } from '../ButtonCount/button-count'
+import { addCart, incrementQuantity, decrementQuantity, removeProduct, addCartAfterChange } from '../../storage/cart/cartSlice';
 
-export const Product = ({ onProductLike, pictures, likes = [], reviews, tags, name, price, discount, description, wight, _id }) => {
+export const Product = ({ allData, onProductLike, pictures, likes = [], reviews, tags, name, price, discount, description, wight, _id }) => {
 
    const currentUser = useSelector(state => state.user.data);
+   const dispatch = useDispatch();
    const discount_price = calcDiscountPrice(price, discount);
    const isLike = isLiked(likes, currentUser?._id);
    const desctiptionHTML = createMarkup(description);
@@ -34,12 +37,16 @@ export const Product = ({ onProductLike, pictures, likes = [], reviews, tags, na
                <span className={discount ? s.oldPrice : s.price}>{price}&nbsp;₽</span>
                {discount !== 0 && <span className={cn(s.price, 'card__price_type_discount')}>{discount_price}&nbsp;₽</span>}
                <div className={s.btnWrap}>
-                  <div className={s.left}>
-                     <button className={s.minus}>-</button>
-                     <span className={s.num}>0</span>
-                     <button className={s.plus}>+</button>
-                  </div>
-                  <a href="/#" className={cn('btn', 'btn_type_primary', s.cart)}>В корзину</a>
+                  <ButtonCount
+                     amount={0}
+                     handleDecrement={() => dispatch(decrementQuantity(allData))}
+                     handleIncrement={() => dispatch(incrementQuantity(allData))}
+                     handleCountChange={(newQuantity) => dispatch(addCartAfterChange({ ...allData, quantity: newQuantity }))}
+                  />
+                  <a href={`/cart?id=${_id}`} className={cn('btn', 'btn_type_primary', s.cart)} onClick={(e) => {
+                     e.preventDefault();
+                     dispatch(addCart(allData))
+                  }}>В корзину</a>
                </div>
                <button className={cn(s.favorite, { [s.favoriteActive]: isLike })} onClick={onProductLike}>
                   <Save />

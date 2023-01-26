@@ -28,7 +28,6 @@ export const Login = () => {
    }
 
    const sendRegisterApi = (data) => {
-      console.log(data);
       dispatch(userAuthenticate(data))
    }
 

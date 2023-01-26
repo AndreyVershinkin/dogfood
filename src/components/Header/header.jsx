@@ -8,12 +8,16 @@ import { ReactComponent as UserIcon } from './img/user.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../storage/user/userSlice';
+import { cartInfoSelector } from '../../storage/cart/cartSlice'
 
 function Header({ children }) {
    const favorites = useSelector(state => state.products.favoriteProducts);
    const user = useSelector(state => state.user.data);
+   const state = useSelector(state => state);
    const dispatch = useDispatch();
    const location = useLocation();
+   const { totalCount } = cartInfoSelector(state);
+
    return (
       <header className={cn(s.header, 'cover')}>
          <div className="container">
@@ -26,7 +30,7 @@ function Header({ children }) {
                   </Link>
                   <Link className={s.favoritesLink} to={{ pathname: "/cart" }}>
                      <CartIcon />
-                     {favorites.length !== 0 && <span className={s.iconBubble}>{favorites.length}</span>}
+                     {totalCount !== 0 && <span className={s.iconBubble}>{totalCount}</span>}
                   </Link>
                   {!user && <Link to='/login' state={{ backgroundLocation: location, initialPath: location.pathname }} className={s.iconsMenuItem} >
                      <UserIcon />

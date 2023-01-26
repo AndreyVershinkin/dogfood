@@ -24,6 +24,7 @@ import { fetchProducts } from '../../storage/products/productsSlice';
 import { fetchUser } from '../../storage/user/userSlice';
 import { ProtectedRoute } from '../ProtectedRoute/protected-route';
 import { userTokenChek } from '../../storage/user/userSlice'
+import { CartPage } from '../../pages/CartPage/cart-page';
 
 function App() {
    const [cards, setCards] = useState([]);
@@ -102,6 +103,11 @@ function App() {
                <Route path='/catalog' element={
                   <ProtectedRoute>
                      <CatalogPage />
+                  </ProtectedRoute>
+               } />
+               <Route path='/cart' element={
+                  <ProtectedRoute>
+                     <CartPage />
                   </ProtectedRoute>
                } />
                <Route path='/product/:productId' element={
