@@ -25,6 +25,7 @@ import { fetchUser } from '../../storage/user/userSlice';
 import { ProtectedRoute } from '../ProtectedRoute/protected-route';
 import { userTokenChek } from '../../storage/user/userSlice'
 import { CartPage } from '../../pages/CartPage/cart-page';
+import { getLocalData } from '../../utils/localStorage';
 
 function App() {
    const [cards, setCards] = useState([]);
@@ -50,10 +51,10 @@ function App() {
          })
    }, [searchQuery])
 
-   const token = JSON.parse(localStorage.getItem('token'));
+   const token = getLocalData('token');
    useEffect(() => {
 
-      const userData = dispatch(userTokenChek(token));
+      const userData = dispatch(userTokenChek());
       if (token) {
          userData.then(() => {
             dispatch(fetchProducts());

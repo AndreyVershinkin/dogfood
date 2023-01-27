@@ -12,8 +12,9 @@ export const FormReview = ({ title = 'Отзыв о товаре', productId, se
    const { register, handleSubmit, formState: { errors }, reset } = useForm({ mode: "onBlur" })
    const [rating, setRating] = useState(INITIAL_VALUE_RATING)
    const dispatch = useDispatch();
+
    const sendReviewProduct = (data) => {
-      dispatch(fetchCreateReview({ productId, data }))
+      dispatch(fetchCreateReview({ productId, data: { ...data, rating } }))
          .then(() => {
             reset();
             setRating(INITIAL_VALUE_RATING)

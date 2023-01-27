@@ -13,7 +13,7 @@ const CardList = ({ cards }) => {
          {!cards.length && !loading && <NotFound buttonText='Назад' title="Простите, по вашему запросу ничего не найдено" buttonAction={() => navigate(-1)} />}
          <div className='cards'>
             {
-               cards.map((item, index) => <Card key={item._id} {...item} />)
+               cards.map((item, index) => <Card key={item._id} allData={item} {...item} />)
             }
          </div>
       </>

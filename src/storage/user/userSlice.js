@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { setLocalData } from '../../utils/localStorage';
 import { isError } from '../../utils/store';
 
 
@@ -27,7 +28,7 @@ export const userAuthenticate = createAsyncThunk(
       try {
          const data = await api.authorize(dataAuth);
          if (data.token) {
-            localStorage.setItem('token', JSON.stringify(data.token))
+            setLocalData('token', data.token)
          } else {
             return rejectWithValue(data);
          }
@@ -58,11 +59,11 @@ export const userRegister = createAsyncThunk(
 export const userTokenChek = createAsyncThunk(
    'user/userTokenChek',
    async function (
-      token,
+      _,
       { rejectWithValue, fulfillWithValue, dispatch, extra: api }
    ) {
       try {
-         const data = await api.checkToken(token);
+         const data = await api.checkToken();
          dispatch(authCheck())
          return fulfillWithValue(data);
       } catch (error) {

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
-import { calcDiscountPrice, isLiked, createMarkup } from '../../utils/product';
+import { calcDiscountPrice, isLiked, createMarkup, checkProductInCart } from '../../utils/product';
 import { useMemo } from 'react';
 import { ContentHeader } from '../ContentHeader/content-header';
 import { Rating } from '../Rating/rating';
@@ -15,10 +15,12 @@ import { addCart, incrementQuantity, decrementQuantity, removeProduct, addCartAf
 export const Product = ({ allData, onProductLike, pictures, likes = [], reviews, tags, name, price, discount, description, wight, _id }) => {
 
    const currentUser = useSelector(state => state.user.data);
+   const { data: cartProducts } = useSelector(state => state.cart);
    const dispatch = useDispatch();
    const discount_price = calcDiscountPrice(price, discount);
    const isLike = isLiked(likes, currentUser?._id);
    const desctiptionHTML = createMarkup(description);
+   const productInCart = checkProductInCart(productInCart, _id);
    const ratingCount = useMemo(() => Math.round(reviews.reduce((acc, r) => acc = acc + r.rating, 0) / reviews.length), [reviews])
 
    return (
@@ -38,7 +40,7 @@ export const Product = ({ allData, onProductLike, pictures, likes = [], reviews,
                {discount !== 0 && <span className={cn(s.price, 'card__price_type_discount')}>{discount_price}&nbsp;₽</span>}
                <div className={s.btnWrap}>
                   <ButtonCount
-                     amount={0}
+                     amount={productInCart.quantity}
                      handleDecrement={() => dispatch(decrementQuantity(allData))}
                      handleIncrement={() => dispatch(incrementQuantity(allData))}
                      handleCountChange={(newQuantity) => dispatch(addCartAfterChange({ ...allData, quantity: newQuantity }))}
@@ -46,7 +48,7 @@ export const Product = ({ allData, onProductLike, pictures, likes = [], reviews,
                   <a href={`/cart?id=${_id}`} className={cn('btn', 'btn_type_primary', s.cart)} onClick={(e) => {
                      e.preventDefault();
                      dispatch(addCart(allData))
-                  }}>В корзину</a>
+                  }}>{productInCart.exist ? "Добавлено" : "В корзину"}</a>
                </div>
                <button className={cn(s.favorite, { [s.favoriteActive]: isLike })} onClick={onProductLike}>
                   <Save />

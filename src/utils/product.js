@@ -6,4 +6,15 @@ export const calcDiscountPrice = (price, discount) => {
 
 export const createMarkup = (textToHtml) => {
    return { __html: textToHtml }
-} 
+}
+
+
+export const checkProductInCart = (cartProducts, _id) => {
+   const productInCart = cartProducts.find(
+      (item) => item._id === _id
+   )
+   if (productInCart?.quantity) {
+      return { quantity: productInCart.quantity, exist: true }
+   }
+   return { quantity: 0, exist: false };
+}
