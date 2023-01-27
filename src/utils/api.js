@@ -74,7 +74,7 @@ class Api {
       }).then(onResponce)
    }
 
-   checkToken(token) {
+   checkToken() {
       const token = getLocalData('token');
       return fetch(`${this._baseUrl}/users/me`, {
          headers: {

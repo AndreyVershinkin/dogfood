@@ -1,6 +1,5 @@
 
 import s from './index.module.css';
-import { NotFound } from '../NotFound/NotFound';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ButtonCount } from '../ButtonCount/button-count';

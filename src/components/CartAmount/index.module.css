@@ -26,3 +26,37 @@
    justify-content: space-between;
    align-items: center;
 }
+
+.tableTitle {
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 20px;
+}
+
+.tableValue {
+   font-weight: 600;
+   font-size: 14px;
+   line-height: 20px;
+}
+
+.tableValueDiscount {
+   color: F44336;
+}
+
+.totalCost {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.totalCostTitle {
+   font-weight: 800;
+   font-size: 14px;
+   line-height: 20px;
+}
+
+.totalCostValue {
+   font-weight: 800;
+   font-size: 20px;
+   line-height: 24px;
+}
