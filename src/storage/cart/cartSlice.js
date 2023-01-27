@@ -31,7 +31,7 @@ const cartSlice = createSlice({
    initialState,
    reducers: {
       addCart: (state, action) => {
-         const productInCart = state.data.find(product => product.id === action.payload._id);
+         const productInCart = state.data.find(product => product._id === action.payload._id);
          if (productInCart) {
             productInCart.quantity++;
          } else {
@@ -39,7 +39,7 @@ const cartSlice = createSlice({
          }
       },
       addCartAfterChange: (state, action) => {
-         const productInCart = state.data.find(product => product.id === action.payload._id);
+         const productInCart = state.data.find(product => product._id === action.payload._id);
          if (productInCart && action.payload.quantity > 0) {
             productInCart.quantity = action.payload.quantity;
          } else {
@@ -47,7 +47,7 @@ const cartSlice = createSlice({
          }
       },
       incrementQuantity: (state, action) => {
-         const productInCart = state.data.find(product => product.id === action.payload._id);
+         const productInCart = state.data.find(product => product._id === action.payload._id);
          if (productInCart) {
             productInCart.quantity++;
          } else {
@@ -55,7 +55,7 @@ const cartSlice = createSlice({
          }
       },
       decrementQuantity: (state, action) => {
-         const productInCart = state.data.find(product => product.id === action.payload._id);
+         const productInCart = state.data.find(product => product._id === action.payload._id);
          if (productInCart.quantity <= 1) {
             productInCart.quantity = 1;
          } else {

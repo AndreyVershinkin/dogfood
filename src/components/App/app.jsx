@@ -52,8 +52,8 @@ function App() {
    }, [searchQuery])
 
    const token = getLocalData('token');
-   useEffect(() => {
 
+   useEffect(() => {
       const userData = dispatch(userTokenChek());
       if (token) {
          userData.then(() => {

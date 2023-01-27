@@ -20,7 +20,7 @@ export const Product = ({ allData, onProductLike, pictures, likes = [], reviews,
    const discount_price = calcDiscountPrice(price, discount);
    const isLike = isLiked(likes, currentUser?._id);
    const desctiptionHTML = createMarkup(description);
-   const productInCart = checkProductInCart(productInCart, _id);
+   const productInCart = checkProductInCart(cartProducts, _id);
    const ratingCount = useMemo(() => Math.round(reviews.reduce((acc, r) => acc = acc + r.rating, 0) / reviews.length), [reviews])
 
    return (
