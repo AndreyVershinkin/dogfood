@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import Footer from '../Footer/footer';
 import Header from '../Header/header';
 import Logo from '../Logo/logo';
@@ -21,20 +20,18 @@ import { ResetPassword } from '../ResetPassword/reset-password';
 import { HomePage } from '../../pages/HomePage/home-page';
 import { useDispatch } from 'react-redux';
 import { fetchProducts } from '../../storage/products/productsSlice';
-import { fetchUser } from '../../storage/user/userSlice';
 import { ProtectedRoute } from '../ProtectedRoute/protected-route';
 import { userTokenChek } from '../../storage/user/userSlice'
 import { CartPage } from '../../pages/CartPage/cart-page';
 import { getLocalData } from '../../utils/localStorage';
 
 function App() {
-   const [cards, setCards] = useState([]);
+   const setCards = useState([]);
    const [searchQuery, setSearchQuery] = useState('');
    const [isLoading, setIsLoading] = useState(true);
    const debounceSearchQuery = useDebounce(searchQuery, 300);
    const dispatch = useDispatch();
    const location = useLocation();
-   // const loggedIn = useSelector(state => state.user.loggedIn)
    const backgroundLocation = location.state?.backgroundLocation;
    const initialPath = location.state?.initialPath;
 

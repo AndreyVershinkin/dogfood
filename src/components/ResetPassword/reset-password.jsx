@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
-import { EMAIL_REGEXP, PASSWORD_REGEXP, VALIDATE_CONFIG } from "../../utils/contants";
+import { EMAIL_REGEXP, VALIDATE_CONFIG } from "../../utils/contants";
 import Form from "../Form/form";
 import { FormButton } from "../FormButton/form-button";
 import { FormInput } from "../FormInput/form-input";

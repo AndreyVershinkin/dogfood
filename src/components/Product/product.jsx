@@ -10,7 +10,7 @@ import { Rating } from '../Rating/rating';
 import { FormReview } from '../FormReview/form-review';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonCount } from '../ButtonCount/button-count'
-import { addCart, incrementQuantity, decrementQuantity, removeProduct, addCartAfterChange } from '../../storage/cart/cartSlice';
+import { addCart, incrementQuantity, decrementQuantity, addCartAfterChange } from '../../storage/cart/cartSlice';
 
 export const Product = ({ allData, onProductLike, pictures, likes = [], reviews, tags, name, price, discount, description, wight, _id }) => {
 
